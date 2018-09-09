@@ -3,11 +3,12 @@
 
 require 'fileutils'
 
-Vagrant.require_version ">= 2.1.4"
+Vagrant.require_version '>= 2.1.4'
 
-IGNITION_CONFIG_PATH = File.join(File.dirname(__FILE__), "config.ign")
+$generated_ignition_config_dir = File.join(File.dirname(__FILE__), 'ignition')
+$ignition_config_path = File.join($generated_ignition_config_dir, 'config.ign')
 
-$update_channel = "stable"
+$update_channel = 'stable'
 $vm_memory = 512
 $vb_cpuexecutioncap = 25
 
@@ -31,6 +32,9 @@ Vagrant.configure("2") do |config|
     config.vagrant.plugins = 'vagrant-ignition' 
     config.ignition.enabled = true
     config.ignition.config_obj = v
+
+    # the ignition plugin creates an additional config vdisk that is attached to the VM for first-boot config
+    config.ignition.drive_root = $generated_ignition_config_dir
   end
 
   # plugin conflict
@@ -40,7 +44,7 @@ Vagrant.configure("2") do |config|
 
   # when the ignition config doesn't exist, the plugin automatically generates a very basic Ignition with the ssh key
   # and previously specified options (ip and hostname). Otherwise, it appends those to the provided config.ign below
-  if File.exist?(IGNITION_CONFIG_PATH)
-    config.ignition.path = 'config.ign'
+  if File.exist?($ignition_config_path)
+    config.ignition.path = $ignition_config_path
   end
 end

@@ -1,2 +1,4 @@
 *.log
 **/.vagrant
+coreos/ignition/*
+!coreos/ignition/.keep
