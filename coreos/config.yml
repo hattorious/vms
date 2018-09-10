@@ -1,0 +1,9 @@
+# This config is meant to be consumed by the config transpiler, which will
+# generate the corresponding Ignition config. Do not pass this config directly
+# to instances of Container Linux.
+systemd:
+  units:
+    - name: locksmithd.service
+      mask: true
+#etcd:
+ #version: 3.3.9
